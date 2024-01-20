@@ -12,6 +12,6 @@ export const getTheme = () => {
   if (theme) {
     return theme;
   }
-  return "light";
+  return "dark";
 };
 //============= /changes theme to dark or light=============//

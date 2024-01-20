@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from "react";
 
-const StarsAnimation = () => {
+import { useSelector } from "react-redux";
+
+export const StarsAnimation = () => {
+  const { theme } = useSelector((state) => state.theme);
   const canvasRef = useRef(null);
-  const n_stars = 150;
+  const n_stars = 200;
   const colors = ["#176ab6", "#fb9b39"];
 
   for (let i = 0; i < 50; i++) {
-    colors.push("#fff");
+    colors.push(theme === "light" ? "#ffa42a" : "#d17904");
   }
 
   useEffect(() => {
@@ -30,16 +33,17 @@ const StarsAnimation = () => {
       canvas.height,
       canvas.height * 4
     );
-    bg.addColorStop(0, "#32465E");
-    bg.addColorStop(0.4, "#000814");
-    bg.addColorStop(0.8, "#000814");
-    bg.addColorStop(1, "#000");
+
+    bg.addColorStop(0, theme === "light" ? "#fff" : "#00050d");
+    // bg.addColorStop(0.9, theme === "light" ? "#b3b3b3" : "#00051d");
+    // bg.addColorStop(0.8, theme === "light" ? "#000814" : "#32465E");
+    // bg.addColorStop(1, theme === "light" ? "#000" : "#000814");
 
     class Star {
       constructor(x, y, radius, color) {
         this.x = x || randomInt(0, canvas.width);
         this.y = y || randomInt(0, canvas.height);
-        this.radius = radius || Math.random() * 1.1;
+        this.radius = radius || Math.random() * 4;
         this.color = color || colors[randomInt(0, colors.length)];
         this.dy = -Math.random() * 0.3;
       }
@@ -50,7 +54,7 @@ const StarsAnimation = () => {
         c.shadowBlur = randomInt(3, 15);
         c.shadowColor = this.color;
         c.strokeStyle = this.color;
-        c.fillStyle = "rgba(255, 255, 255, 0.5)";
+        c.fillStyle = this.color;
         c.fill();
         c.stroke();
         c.closePath();
@@ -102,9 +106,7 @@ const StarsAnimation = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [theme]);
 
-  return <canvas ref={canvasRef} className="fixed w-screen h-screen z-10" />;
+  return <canvas ref={canvasRef} className="fixed w-screen h-screen -z-10" />;
 };
-
-export default StarsAnimation;

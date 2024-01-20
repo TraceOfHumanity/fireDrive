@@ -8,6 +8,8 @@ import { setTheme } from "src/redux/features/themeSlice";
 import { Button } from "src/ui-elements/Button";
 import { getTheme, handleThemeSwitch } from "src/utils/functions";
 
+import { Auth } from "./Auth";
+
 export const Aside = () => {
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
@@ -34,7 +36,7 @@ export const Aside = () => {
 
   return (
     <div
-      className="bg-black bg-opacity-10 m-2 rounded-xl p-2 flex flex-col"
+      className="rounded-3xl p-2 flex flex-col relative top-1/2 transform -translate-y-1/2 h-fit backdrop-blur-md border-[1px] border-slate-950 dark:border-gray-300 gap-2"
       ref={asideRef}
       onMouseEnter={() => {
         clearTimeout(timeoutId);
@@ -44,8 +46,9 @@ export const Aside = () => {
         timeoutId = setTimeout(() => setIsOpenAside(false), 500);
       }}
     >
+      <Auth />
+
       <Button
-        className="mt-auto block"
         onClick={() => {
           handleThemeSwitch();
           dispatch(setTheme(getTheme()));
